@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="background">#DFDFDF</color>
+    <color name="BluePrincipal">#74A4AE</color>
+    <color name="Subtitulo">#8C8C8C</color>
+    <color name="Warning">#DD2222</color>
+    <color name="Seco">#BFA782</color>
+</resources>
