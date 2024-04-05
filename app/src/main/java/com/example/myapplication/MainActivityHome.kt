@@ -1,16 +1,20 @@
 package com.example.myapplication
 
 import android.content.ContentValues.TAG
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.Firebase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -19,6 +23,7 @@ import kotlin.math.roundToInt
 class MainActivityHome : AppCompatActivity() {
     private val apiKey = "88882643d87ed372860fbcb34135baef"
     private lateinit var weatherService: WeatherService
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_home)
@@ -50,6 +55,24 @@ class MainActivityHome : AppCompatActivity() {
         weatherService = retrofit.create(WeatherService::class.java)
 
         getWeatherData()
+
+        val buttonHomeView = findViewById<ImageView>(R.id.button_home_view)
+        buttonHomeView.setOnClickListener {
+            val intent = Intent(this, MainActivityHome::class.java)
+            startActivity(intent)
+        }
+
+        val buttonRefreshView = findViewById<ImageView>(R.id.button_refresh_view)
+        buttonRefreshView.setOnClickListener {
+            val intent = Intent(this, MainActivityHome::class.java)
+            startActivity(intent)
+        }
+        val buttonPlantView = findViewById<ImageView>(R.id.button_plat_add)
+        buttonPlantView.setOnClickListener {
+            val intent = Intent(this, MainActivityForm::class.java)
+            startActivity(intent)
+        }
+
     }
 
     private fun getWeatherData() {
