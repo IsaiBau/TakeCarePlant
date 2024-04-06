@@ -11,4 +11,18 @@
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
+
+    <style name="BottomNavThem" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/green2</item>
+        <item name="itemRippleColor">@color/green2</item>
+    </style>
+
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="bottomNavigationStyle">@style/CustomBottomNavigationView</item>
+    </style>
+
+    <style name="CustomBottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="android:background">@color/transparente</item>
+        <item name="android:state_activated">@color/transparente</item>
+    </style>
 </resources>

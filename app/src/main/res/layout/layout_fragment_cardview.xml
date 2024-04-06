@@ -9,13 +9,12 @@
     <FrameLayout
         android:layout_width="407dp"
         android:layout_height="113dp"
-
-        android:layout_marginTop="724dp"
+        android:layout_marginTop="720dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
 
             android:layout_width="350dp"
             android:layout_height="70dp"
@@ -24,13 +23,14 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="24dp"
-            android:elevation="50dp"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="10dp"
+            app:cardElevation="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/scrollView2">
+            app:layout_constraintTop_toBottomOf="@+id/scrollView2"
+            app:strokeColor="@color/white">
 
             <ImageView
                 android:id="@+id/button_plat_add"
@@ -54,7 +54,7 @@
                 android:layout_gravity="start|center_horizontal"
                 android:layout_marginStart="30dp"
                 android:src="@drawable/icon_refresh"></ImageView>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
     </FrameLayout>
     <!-- Fin del FrameLayout que contiene el CardView -->

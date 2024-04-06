@@ -4,78 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivityForm"
+    tools:context=".fragments.FormFragment"
     android:background="@color/background"
     android:focusableInTouchMode="true">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
-        android:fontFamily="@font/medium"
-        android:gravity="start"
-        android:text="Buenos Días!"
-        android:textColor="@color/black"
-        android:textSize="9pt"
-        app:layout_constraintBottom_toTopOf="@+id/cardViewForm"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.115" />
-
-    <TextView
-        android:id="@+id/UserName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/montserrat_bold"
-        android:text="ISAI BAUTISTA"
-        android:textColor="@color/black"
-        android:textSize="13pt"
-        android:layout_marginStart="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="55dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/cardViewForm"
-        app:layout_constraintStart_toEndOf="@+id/UserName">
-
-        <ImageView
-            android:id="@+id/profile_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/pp_profile"
-            android:scaleType="centerCrop"
-            android:src="@drawable/default_profile_image"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <ImageButton
-            android:id="@+id/button_profile"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@null"
-            android:contentDescription="editProfile"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--    Card del form -->
 
@@ -84,17 +16,18 @@
         android:layout_width="350dp"
         android:layout_height="450dp"
         android:layout_marginStart="30dp"
+        android:layout_marginTop="150dp"
         android:backgroundTint="@color/white"
-        app:strokeColor="@color/white"
-        app:cardElevation="5dp"
-        android:paddingTop="10dp"
+        android:paddingTop="50dp"
         app:cardCornerRadius="10dp"
+        app:cardElevation="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/UserName"
-        app:layout_constraintVertical_bias="0.153">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:strokeColor="@color/white">
 
         <TextView
             android:layout_width="wrap_content"
@@ -159,7 +92,7 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:background="@drawable/icon_add"
-                android:clickable="true"/>
+                android:clickable="true" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -179,13 +112,13 @@
         android:layout_width="350dp"
         android:layout_height="80dp"
         android:backgroundTint="@color/white"
-        app:strokeColor="@color/white"
         app:cardElevation="5dp"
-        android:layout_marginBottom="100dp"
-        app:layout_constraintBottom_toBottomOf="@+id/fragmentContainer"
+        android:layout_marginBottom="140dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardViewForm">
+        app:layout_constraintTop_toBottomOf="@+id/cardViewForm"
+        app:strokeColor="@color/white">
 
         <android.widget.Button
             android:id="@+id/button_see"
@@ -198,36 +131,21 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ver tus plantas"
-            android:textColor="@color/black"
-            android:fontFamily="@font/montserrat_bold"
             android:layout_gravity="center|start"
             android:layout_marginStart="20dp"
-            android:textSize="8pt"/>
+            android:fontFamily="@font/montserrat_bold"
+            android:text="Tus plantas"
+            android:textColor="@color/black"
+            android:textSize="8pt" />
 
         <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_gravity="end|center"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/arrow"
-            android:rotation="90" />
+            android:rotation="90"
+            android:src="@drawable/arrow" />
 
     </com.google.android.material.card.MaterialCardView>
-
-    <FrameLayout
-        android:id="@+id/fragmentContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <!-- Incluir el CardView -->
-        <include
-            android:id="@+id/menu"
-            layout="@layout/layout_fragment_cardview"/>
-    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

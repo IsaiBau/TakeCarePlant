@@ -2,10 +2,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="background">#DFDFDF</color>
+    <color name="background">#FFFFFF</color>
     <color name="BluePrincipal">#74A4AE</color>
     <color name="Subtitulo">#8C8C8C</color>
     <color name="Warning">#DD2222</color>
     <color name="Seco">#BFA782</color>
     <color name="transparente">#00FFFFFF</color>
+    <color name="color1">#F8F6D4</color>
+    <color name="green2">#87C489</color>
+    <color name="icon_default">@color/black</color>
+    <color name="icon_selected">@color/green2</color>  ```
+
 </resources>

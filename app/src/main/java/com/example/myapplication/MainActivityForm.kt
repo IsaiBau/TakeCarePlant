@@ -30,9 +30,11 @@ class MainActivityForm : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        binding = ActivityMainFormBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_form)
+
+        binding = ActivityMainFormBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val items = listOf("Dracaena", "Antirrhinum majus", "Aloe vera", "Ficus")
 
@@ -42,35 +44,20 @@ class MainActivityForm : AppCompatActivity() {
 
         autoComplete.setAdapter(adapter)
 
-        val buttonHomeView = findViewById<ImageView>(R.id.button_home_view)
-        buttonHomeView.setOnClickListener {
-            val intent = Intent(this, MainActivityHome::class.java)
-            startActivity(intent)
-        }
-
-        val buttonRefreshView = findViewById<ImageView>(R.id.button_refresh_view)
-        buttonRefreshView.setOnClickListener {
-            val intent = Intent(this, MainActivityForm::class.java)
-            startActivity(intent)
-        }
-        val buttonPlantView = findViewById<ImageView>(R.id.button_plat_add)
-        buttonPlantView.setOnClickListener {
-            val intent = Intent(this, MainActivityForm::class.java)
-            startActivity(intent)
-        }
 
         firebaseDatabase = FirebaseDatabase.getInstance()
         firebaseStorage = FirebaseStorage.getInstance()
 
-        var buttonImage = findViewById<ImageButton>(R.id.img_button)
-
-        buttonImage.setOnClickListener {
-            Log.d("MainActivityForm", "ImageButton clicked")
+        binding.imgButton.setOnClickListener{
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, IMAGE_PICK_CODE)
         }
 
+        binding.buttonSee.setOnClickListener{
+            val intent = Intent(this, MainActivityPlantas::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

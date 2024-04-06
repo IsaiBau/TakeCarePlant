@@ -1,0 +1,19 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Shadow Layer -->
+    <item>
+        <shape>
+            <corners android:radius="@dimen/corner_radius" />
+            <gradient
+                android:startColor="#20000000"
+                android:endColor="#00000000"
+                android:angle="90"/>
+        </shape>
+    </item>
+    <!-- Background Layer -->
+    <item android:top="2dp" android:right="2dp" android:left="2dp" android:bottom="2dp">
+        <shape>
+            <corners android:radius="@dimen/corner_radius" />
+            <solid android:color="@color/background" />
+        </shape>
+    </item>
+</layer-list>
