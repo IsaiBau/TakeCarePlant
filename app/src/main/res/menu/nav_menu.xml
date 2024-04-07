@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/ic_refresh"
-        android:icon="@drawable/icon_refresh"
-        android:title="refresh"/>
 
     <item
         android:id="@+id/ic_home"
@@ -12,7 +8,12 @@
         android:title="home" />
 
     <item
-        android:id="@+id/ic_plant"
+        android:id="@+id/ic_form"
         android:icon="@drawable/icon_plant"
         android:title="plant"/>
+
+    <item
+        android:id="@+id/ic_plant"
+        android:icon="@drawable/icon_favorites"
+        android:title="viewPlants"/>
 </menu>

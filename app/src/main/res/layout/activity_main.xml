@@ -88,7 +88,7 @@
         android:layout_width="350dp"
         android:layout_height="70dp"
         android:background="@drawable/background_menu"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="20dp"
         app:itemTextAppearanceActive="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:itemIconTint="@color/item_background"
@@ -97,6 +97,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/nav_menu"
         app:labelVisibilityMode="unlabeled"
-        android:theme="@style/BottomNavThem"/>
+        app:itemActiveIndicatorStyle="@style/App.Custom.Indicator"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

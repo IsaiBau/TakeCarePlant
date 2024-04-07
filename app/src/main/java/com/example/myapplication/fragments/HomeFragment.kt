@@ -1,21 +1,15 @@
 package com.example.myapplication.fragments
 
 import android.content.ContentValues
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
-import com.example.myapplication.MainActivityForm
 //import com.example.myapplication.MainActivityHome
-import com.example.myapplication.R
 import com.example.myapplication.WeatherService
-import com.example.myapplication.databinding.ActivityMainHomeBinding
 import com.example.myapplication.databinding.FragmentHomeBinding
 import com.google.firebase.Firebase
 import com.google.firebase.database.DataSnapshot

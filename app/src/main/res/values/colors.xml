@@ -11,6 +11,7 @@
     <color name="color1">#F8F6D4</color>
     <color name="green2">#87C489</color>
     <color name="icon_default">@color/black</color>
-    <color name="icon_selected">@color/green2</color>  ```
+    <color name="icon_selected">@color/green2</color>
+    <color name="border">#EAE8E8</color>```
 
 </resources>

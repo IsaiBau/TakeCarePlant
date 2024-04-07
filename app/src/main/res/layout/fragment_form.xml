@@ -11,6 +11,11 @@
 
     <!--    Card del form -->
 
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardViewForm"
         android:layout_width="350dp"
@@ -20,7 +25,7 @@
         android:backgroundTint="@color/white"
         android:paddingTop="50dp"
         app:cardCornerRadius="10dp"
-        app:cardElevation="2dp"
+        app:cardElevation="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -77,6 +82,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardViewImage"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="center_horizontal"
@@ -94,6 +100,12 @@
                 android:background="@drawable/icon_add"
                 android:clickable="true" />
 
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </ImageView>
+
         </com.google.android.material.card.MaterialCardView>
 
         <android.widget.Button
@@ -105,46 +117,6 @@
             android:background="@drawable/button_desing"
             android:text="Guardar"
             android:textColor="@color/white" />
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="350dp"
-        android:layout_height="80dp"
-        android:backgroundTint="@color/white"
-        app:cardElevation="5dp"
-        android:layout_marginBottom="140dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardViewForm"
-        app:strokeColor="@color/white">
-
-        <android.widget.Button
-            android:id="@+id/button_see"
-            android:layout_width="350dp"
-            android:layout_height="80dp"
-            android:layout_marginBottom="30dp"
-            android:background="@color/transparente"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|start"
-            android:layout_marginStart="20dp"
-            android:fontFamily="@font/montserrat_bold"
-            android:text="Tus plantas"
-            android:textColor="@color/black"
-            android:textSize="8pt" />
-
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="end|center"
-            android:layout_marginEnd="20dp"
-            android:rotation="90"
-            android:src="@drawable/arrow" />
 
     </com.google.android.material.card.MaterialCardView>
 

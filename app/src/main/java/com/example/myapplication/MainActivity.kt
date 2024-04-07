@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.myapplication.fragments.FormFragment
 import com.example.myapplication.fragments.HomeFragment
+import com.example.myapplication.fragments.PlantsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -13,7 +14,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val homeFragment = HomeFragment()
-        val plantsFragment = FormFragment()
+        val formFragment = FormFragment()
+        val plantsFragment = PlantsFragment()
 
         makeCurrentFragment(homeFragment)
 
@@ -23,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         bottomNavigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.ic_home -> makeCurrentFragment(homeFragment)
+                R.id.ic_form -> makeCurrentFragment(formFragment)
                 R.id.ic_plant -> makeCurrentFragment(plantsFragment)
                 // Agrega más casos según sea necesario para otros elementos del menú
             }
