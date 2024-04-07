@@ -5,6 +5,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
+import androidx.lifecycle.ViewModel
 import com.bumptech.glide.Glide
 import com.example.myapplication.Model
 import com.example.myapplication.R
@@ -24,10 +27,10 @@ private const val ARG_PARAM2 = "param2"
 
 class FormFragment : Fragment() {
     private lateinit var binding: FragmentFormBinding
-    var uri: Uri? = null
+    private var uri: Uri? = null
     var firebaseStorage: FirebaseStorage? = null
     var firebaseDatabase: FirebaseDatabase? = null
-
+    private val imageViewModel: ImageViewModel by activityViewModels()
     companion object {
         private val IMAGE_PICK_CODE = 1000
 
@@ -40,14 +43,20 @@ class FormFragment : Fragment() {
                 }
             }
     }
-
+    class ImageViewModel : ViewModel() {
+        var imageUrl: String? = null
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentFormBinding.inflate(inflater, container, false)
-
+        imageViewModel.imageUrl?.let { imageUrl ->
+            Glide.with(this)
+                .load(imageUrl)
+                .into(binding.image) // Ajusta esto según tu ImageView
+        }
         binding.imgButton.setOnClickListener{
             Log.d(FormFragment.toString(), "Failed to read value.")
             val intent = Intent(Intent.ACTION_PICK)
@@ -77,15 +86,34 @@ class FormFragment : Fragment() {
         firebaseDatabase = FirebaseDatabase.getInstance()
         firebaseStorage = FirebaseStorage.getInstance()
     }
+    private fun loadImageFromUri(uri: Uri?) {
+        uri?.let { // Verifica si la URI no es nula
+            Glide.with(this)
+                .load(uri)
+                .into(binding.image)
+        }
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 //        super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
             uri = data?.data
+            uri?.let {
+                imageViewModel.imageUrl = it.toString()
+                loadImageFromUri(it)
+            }
             Glide.with(requireContext()).load(uri).into(binding.image)
         }
     }
+    private fun clearImageView() {
+        Glide.with(requireContext())
+            .load(null as Uri?)  // Carga una imagen nula
+            .into(binding.image)  // ImageView que deseas limpiar
+    }
     private fun subirImagen(){
+        clearImageView()
+        //binding.image.visibility = View.GONE
         val reference = firebaseStorage!!.reference.child("Images").child(System.currentTimeMillis().toString()+"")
         reference.putFile(uri!!).addOnSuccessListener {
             reference.downloadUrl.addOnSuccessListener { uri ->
