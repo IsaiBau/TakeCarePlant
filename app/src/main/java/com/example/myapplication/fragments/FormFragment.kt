@@ -88,7 +88,7 @@ class FormFragment : Fragment() {
     private fun subirImagen(){
         val reference = firebaseStorage!!.reference.child("Images").child(System.currentTimeMillis().toString()+"")
         reference.putFile(uri!!).addOnSuccessListener {
-            reference.downloadUrl.addOnSuccessListener { uri ->
+            reference.downloadUrl.addOnSuccessListener { uri -> 
                 val model = Model()
                 model.image = uri.toString()
                 firebaseDatabase!!.reference.child("Imagenes").push()
