@@ -28,6 +28,8 @@ private const val ARG_PARAM2 = "param2"
 class FormFragment : Fragment() {
     private lateinit var binding: FragmentFormBinding
     private var uri: Uri? = null
+    private  var isImageUpload = false
+
     var firebaseStorage: FirebaseStorage? = null
     var firebaseDatabase: FirebaseDatabase? = null
     private val imageViewModel: ImageViewModel by activityViewModels()
@@ -58,7 +60,7 @@ class FormFragment : Fragment() {
                 .into(binding.image) // Ajusta esto según tu ImageView
         }
         binding.imgButton.setOnClickListener{
-            Log.d(FormFragment.toString(), "Failed to read value.")
+            isImageUpload = true
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, IMAGE_PICK_CODE)
@@ -69,9 +71,11 @@ class FormFragment : Fragment() {
         val adapter = ArrayAdapter(activity?.applicationContext ?: requireContext(), R.layout.list_item, items)
         autoComplete.setAdapter(adapter)
 
+
         binding.buttonSave.setOnClickListener {
-            if (uri != null) {
+            if (uri != null && isImageUpload == true) {
                 subirImagen()
+                isImageUpload = false
             } else {
                 Toast.makeText(requireContext(), "Por favor seleccione una imagen", Toast.LENGTH_SHORT).show()
             }
@@ -87,14 +91,12 @@ class FormFragment : Fragment() {
         firebaseStorage = FirebaseStorage.getInstance()
     }
     private fun loadImageFromUri(uri: Uri?) {
-        uri?.let { // Verifica si la URI no es nula
+        uri?.let {
             Glide.with(this)
                 .load(uri)
                 .into(binding.image)
         }
     }
-
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 //        super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
@@ -108,8 +110,8 @@ class FormFragment : Fragment() {
     }
     private fun clearImageView() {
         Glide.with(requireContext())
-            .load(null as Uri?)  // Carga una imagen nula
-            .into(binding.image)  // ImageView que deseas limpiar
+            .load(null as Uri?)
+            .into(binding.image)
     }
     private fun subirImagen(){
         clearImageView()
