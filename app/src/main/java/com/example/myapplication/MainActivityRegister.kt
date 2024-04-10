@@ -89,13 +89,4 @@ class MainActivityRegister : AppCompatActivity() {
         super.onRestart()
         Log.i("datoregister","On restart")
     }
-    /*
-    private fun userRegister(username: String, password: String, apellidos:String, numero: String, email:String){
-        val idRegister = databaseHelper.insertUser(username, password, apellidos, numero, email)
-        if (idRegister != -1L){
-            Toast.makeText(this, "¡Registro exitoso!", Toast.LENGTH_SHORT).show()
-        }else{
-            Toast.makeText(this, "Error al registrar", Toast.LENGTH_SHORT).show()
-        }
-    }*/
 }

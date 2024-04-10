@@ -3,6 +3,7 @@ package com.example.myapplication.fragments
 import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -60,7 +61,6 @@ class FormFragment : Fragment() {
     class ImageViewModel : ViewModel() {
         var imageUrl: String? = null
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentFormBinding.inflate(layoutInflater)
@@ -68,7 +68,6 @@ class FormFragment : Fragment() {
         firebaseStorage = FirebaseStorage.getInstance()
         auth = FirebaseAuth.getInstance()
     }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -79,18 +78,43 @@ class FormFragment : Fragment() {
         dbHelper = DbHelper(requireContext())
         var plants = dbHelper.getAllPlants()
         var plantNames = plants.map { it.nombre }
+        val databaseReference = firebaseDatabase?.reference?.child("TakeCare")
+
+        // Obtener los nombres de los campos Sensor desde la base de datos
+        val sensorNames = mutableListOf<String>()
+        databaseReference?.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (sensorSnapshot in dataSnapshot.children) {
+                    val sensorName = sensorSnapshot.key?.takeIf { it.contains("Sensor") }
+                        ?.let { sensorNames.add(it) }
+                }
+                // Configurar el adaptador del AutoCompleteTextView con los nombres de los campos Sensor
+                val sensorAdapter = ArrayAdapter(requireContext(), R.layout.list_item, sensorNames)
+                binding.sensor.setAdapter(sensorAdapter)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Manejar el error si la lectura de datos falla
+            }
+        })
 
         imageViewModel.imageUrl?.let { imageUrl ->
             Glide.with(this)
                 .load(imageUrl)
                 .into(binding.image) // Ajusta esto según tu ImageView
         }
-        binding.imgButton.setOnClickListener{
-            isImageUpload = true
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            startActivityForResult(intent, IMAGE_PICK_CODE)
+
+        binding.tipoPlanta.setOnItemClickListener { parent, view, position, id ->
+            val plantaSeleccionada = parent.getItemAtPosition(position) as String
+            cargarImagenDesdeSQLite(plantaSeleccionada)
         }
+
+//        binding.imgButton.setOnClickListener {
+//            isImageUpload = true
+//            val intent = Intent(Intent.ACTION_PICK)
+//            intent.type = "image/*"
+//            startActivityForResult(intent, IMAGE_PICK_CODE)
+//        }
 
         val adapter = ArrayAdapter(requireContext(), R.layout.list_item, plantNames)
         var autoComplete: AutoCompleteTextView = binding.tipoPlanta
@@ -101,101 +125,89 @@ class FormFragment : Fragment() {
             selectedPlant?.let { plant ->
 
                 val nombrePlanta = binding.editTextNombrePlanta.text.toString()
-                // Obtener el email del usuario actual
+                val sensor = binding.sensor.text.toString()
+                val tipo = binding.tipoPlanta
+                val tipoTexto = tipo.text.toString()
                 val currentUser = auth.currentUser
                 val currentUserEmail = currentUser?.email ?: ""
 
-                // Guardar la asociación entre el usuario y la planta seleccionada
-                dbHelper.addUserPlant(currentUserEmail, plant.id, nombrePlanta)
-                Toast.makeText(requireContext(), "Planta guardada correctamente", Toast.LENGTH_SHORT).show()
+                dbHelper.addUserPlant(auth, currentUserEmail, plant.id, nombrePlanta, sensor, tipoTexto)
+                Toast.makeText(
+                    requireContext(),
+                    "Planta guardada correctamente",
+                    Toast.LENGTH_SHORT
+                ).show()
+                binding.editTextNombrePlanta.text!!.clear()
+                binding.sensor.text.clear()
+                autoComplete.setText("")
+
             } ?: run {
-                Toast.makeText(requireContext(), "Por favor selecciona una planta válida", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Por favor selecciona una planta válida",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
+
         return binding.root
     }
 
-//    override fun onCreateView(
-//        inflater: LayoutInflater,
-//        container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View? {
-//        binding = FragmentFormBinding.inflate(inflater, container, false)
-//
-//        dbHelper = DbHelper(requireContext())
-//        var plants = dbHelper.getAllPlants()
-//        var plantNames = plants.map { it.nombre }
-//
-//        imageViewModel.imageUrl?.let { imageUrl ->
-//            Glide.with(this)
-//                .load(imageUrl)
-//                .into(binding.image) // Ajusta esto según tu ImageView
-//        }
-//        binding.imgButton.setOnClickListener{
-//            isImageUpload = true
-//            val intent = Intent(Intent.ACTION_PICK)
-//            intent.type = "image/*"
-//            startActivityForResult(intent, IMAGE_PICK_CODE)
-//        }
-//
-//        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, plantNames)
-//        var autoComplete: AutoCompleteTextView = binding.tipoPlanta
-//        autoComplete.setAdapter(adapter)
-//
-//        binding.buttonSave.setOnClickListener {
-//            val selectedPlant = plants.find { it.nombre == autoComplete.text.toString() }
-//            selectedPlant?.let { plant ->
-//
-//                val nombrePlanta = binding.editTextNombrePlanta.text.toString()
-//                // Guardar la asociación entre el usuario y la planta seleccionada
-//                dbHelper.addUserPlant(currentUserEmail, plant.id, nombrePlanta)
-//                Toast.makeText(requireContext(), "Planta guardada correctamente", Toast.LENGTH_SHORT).show()
-//            } ?: run {
-//                Toast.makeText(requireContext(), "Por favor selecciona una planta válida", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//        return binding.root
-//    }
+        private fun loadImageFromUri(uri: Uri?) {
+            uri?.let {
+                Glide.with(this)
+                    .load(uri)
+                    .into(binding.image)
+            }
+        }
 
-    private fun loadImageFromUri(uri: Uri?) {
-        uri?.let {
-            Glide.with(this)
-                .load(uri)
+        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+            if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
+                uri = data?.data
+                uri?.let {
+                    imageViewModel.imageUrl = it.toString()
+                    loadImageFromUri(it)
+                }
+                Glide.with(requireContext()).load(uri).into(binding.image)
+            }
+        }
+
+        private fun clearImageView() {
+            Glide.with(requireContext())
+                .load(null as Uri?)
                 .into(binding.image)
         }
-    }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
-            uri = data?.data
-            uri?.let {
-                imageViewModel.imageUrl = it.toString()
-                loadImageFromUri(it)
-            }
-            Glide.with(requireContext()).load(uri).into(binding.image)
-        }
-    }
-    private fun clearImageView() {
-        Glide.with(requireContext())
-            .load(null as Uri?)
-            .into(binding.image)
-    }
-    private fun subirImagen(){
-        clearImageView()
-        //binding.image.visibility = View.GONE
-        val reference = firebaseStorage!!.reference.child("Images").child(System.currentTimeMillis().toString()+"")
-        reference.putFile(uri!!).addOnSuccessListener {
-            reference.downloadUrl.addOnSuccessListener { uri -> 
-                val model = Model()
-                model.image = uri.toString()
-                firebaseDatabase!!.reference.child("Imagenes").push()
-                    .setValue(model).addOnSuccessListener {
-                        requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
-                    }
-                    .addOnSuccessListener {
-                        Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
-                    }
+
+        private fun subirImagen() {
+            clearImageView()
+            //binding.image.visibility = View.GONE
+            val reference = firebaseStorage!!.reference.child("Images")
+                .child(System.currentTimeMillis().toString() + "")
+            reference.putFile(uri!!).addOnSuccessListener {
+                reference.downloadUrl.addOnSuccessListener { uri ->
+                    val model = Model()
+                    model.image = uri.toString()
+                    firebaseDatabase!!.reference.child("Imagenes").push()
+                        .setValue(model).addOnSuccessListener {
+                            requireActivity().supportFragmentManager.beginTransaction().remove(this)
+                                .commit()
+                        }
+                        .addOnSuccessListener {
+                            Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                        }
+                }
             }
         }
+
+    private fun cargarImagenDesdeSQLite(nombrePlanta: String) {
+        val plants = dbHelper.getAllPlants()
+        val planta = plants.find { it.nombre == nombrePlanta }
+
+        planta?.let { plant ->
+            val bitmap = BitmapFactory.decodeByteArray(plant.defaultImage, 0, plant.defaultImage.size)
+            binding.image.setImageBitmap(bitmap)
+        }
     }
+
 }
