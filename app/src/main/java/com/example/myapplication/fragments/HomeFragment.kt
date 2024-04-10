@@ -1,6 +1,7 @@
 package com.example.myapplication.fragments
 
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -47,16 +48,15 @@ class HomeFragment : Fragment() {
         val database = Firebase.database
         val myRef = database.getReference("TakeCare/Sensor")
         val txtHumedad = binding.TextViewPorcentajeHumedad
-
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(Long::class.java)
                 txtHumedad.setText(value.toString() + " %")
-                Log.d(ContentValues.TAG, "Value is: $value")
+                Log.d(TAG, "Value is: $value")
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
+                Log.w(TAG, "Failed to read value.", error.toException())
             }
         })
 
