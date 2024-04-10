@@ -18,7 +18,7 @@
         android:layout_width="350dp"
         android:layout_height="320dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="120dp"
         android:backgroundTint="@color/white"
         app:cardCornerRadius="10dp"
         app:cardElevation="30dp"
@@ -42,12 +42,13 @@
             android:textSize="20dp"></TextView>
 
         <TextView
+            android:id="@+id/nombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="50dp"
             android:fontFamily="@font/medium"
-            android:text="Planta"
+            android:text="Planta de ejemplo"
             android:textColor="@color/Subtitulo"></TextView>
 
         <TextView
@@ -82,7 +83,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginBottom="125dp"
             android:fontFamily="@font/medium"
-            android:text="NECESITA RIEGO URGENTE"
+            android:text="AGREGA TU PROPIA PLANTA"
             android:textColor="@color/Warning"
             android:textSize="6pt"></TextView>
 
@@ -107,13 +108,14 @@
 
         <android.widget.Button
             android:id="@+id/buttonRegar"
-            android:layout_width="90dp"
+            android:layout_width="120dp"
             android:layout_height="40dp"
+            android:textSize="10dp"
             android:layout_gravity="bottom|center"
             android:layout_marginBottom="35dp"
             android:background="@drawable/button_desing"
             android:fontFamily="@font/montserrat_bold"
-            android:text="Regar"
+            android:text="Agregar planta"
             android:textColor="@color/white" />
 
     </com.google.android.material.card.MaterialCardView>
@@ -123,8 +125,7 @@
         android:layout_width="350dp"
         android:layout_height="220dp"
         android:layout_marginStart="30dp"
-        app:strokeColor="@color/white"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="56dp"
         android:backgroundTint="@color/white"
         android:paddingTop="10dp"
         app:cardCornerRadius="10dp"
@@ -134,59 +135,55 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.0"
+        app:strokeColor="@color/white">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Clima Exterior"
             android:layout_marginStart="20dp"
-            android:textColor="@color/black"
             android:layout_marginTop="20dp"
-            android:textSize="20dp"
-            android:fontFamily="@font/montserrat_bold">
-        </TextView>
+            android:fontFamily="@font/montserrat_bold"
+            android:text="Clima Exterior"
+            android:textColor="@color/black"
+            android:textSize="20dp"></TextView>
 
         <TextView
             android:id="@+id/TextViewClima"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat_bold"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
+            android:fontFamily="@font/montserrat_bold"
             android:text="20°C"
             android:textColor="@color/black"
-            android:textSize="70dp">
-        </TextView>
+            android:textSize="70dp"></TextView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="60dp"
-            android:text="Soleado"
             android:fontFamily="@font/medium"
+            android:text="Soleado"
             android:textColor="@color/Subtitulo"
-            android:textSize="16dp">
-        </TextView>
+            android:textSize="16dp"></TextView>
 
         <ImageView
             android:layout_width="100dp"
             android:layout_height="90dp"
-            android:src="@drawable/nube_icono"
             android:layout_gravity="center_vertical|end"
-            android:layout_marginEnd="20dp">
-        </ImageView>
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/nube_icono"></ImageView>
 
         <ImageView
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_gravity="end"
-            android:layout_marginEnd="20dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/icono_clima">
-        </ImageView>
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/icono_clima"></ImageView>
 
     </com.google.android.material.card.MaterialCardView>
 
