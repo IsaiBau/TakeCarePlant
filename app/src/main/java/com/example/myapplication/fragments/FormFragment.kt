@@ -17,10 +17,12 @@ import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.bumptech.glide.Glide
+import com.example.myapplication.DbHelper
 import com.example.myapplication.Model
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentFormBinding
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -33,9 +35,12 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 class FormFragment : Fragment() {
+
     private lateinit var binding: FragmentFormBinding
     private var uri: Uri? = null
     private  var isImageUpload = false
+    private lateinit var dbHelper: DbHelper
+    private lateinit var auth: FirebaseAuth
 
     var firebaseStorage: FirebaseStorage? = null
     var firebaseDatabase: FirebaseDatabase? = null
@@ -55,12 +60,26 @@ class FormFragment : Fragment() {
     class ImageViewModel : ViewModel() {
         var imageUrl: String? = null
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = FragmentFormBinding.inflate(layoutInflater)
+        firebaseDatabase = FirebaseDatabase.getInstance()
+        firebaseStorage = FirebaseStorage.getInstance()
+        auth = FirebaseAuth.getInstance()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentFormBinding.inflate(inflater, container, false)
+
+        dbHelper = DbHelper(requireContext())
+        var plants = dbHelper.getAllPlants()
+        var plantNames = plants.map { it.nombre }
+
         imageViewModel.imageUrl?.let { imageUrl ->
             Glide.with(this)
                 .load(imageUrl)
@@ -73,28 +92,71 @@ class FormFragment : Fragment() {
             startActivityForResult(intent, IMAGE_PICK_CODE)
         }
 
-        val items = listOf("Dracaena", "Antirrhinum majus", "Aloe vera", "Ficus")
-        val autoComplete : AutoCompleteTextView = binding.tipoPlanta
-        val adapter = ArrayAdapter(activity?.applicationContext ?: requireContext(), R.layout.list_item, items)
+        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, plantNames)
+        var autoComplete: AutoCompleteTextView = binding.tipoPlanta
         autoComplete.setAdapter(adapter)
 
         binding.buttonSave.setOnClickListener {
-            if (uri != null && isImageUpload == true) {
-                subirImagen()
-                isImageUpload = false
-            } else {
-                Toast.makeText(requireContext(), "Por favor seleccione una imagen", Toast.LENGTH_SHORT).show()
+            val selectedPlant = plants.find { it.nombre == autoComplete.text.toString() }
+            selectedPlant?.let { plant ->
+
+                val nombrePlanta = binding.editTextNombrePlanta.text.toString()
+                // Obtener el email del usuario actual
+                val currentUser = auth.currentUser
+                val currentUserEmail = currentUser?.email ?: ""
+
+                // Guardar la asociación entre el usuario y la planta seleccionada
+                dbHelper.addUserPlant(currentUserEmail, plant.id, nombrePlanta)
+                Toast.makeText(requireContext(), "Planta guardada correctamente", Toast.LENGTH_SHORT).show()
+            } ?: run {
+                Toast.makeText(requireContext(), "Por favor selecciona una planta válida", Toast.LENGTH_SHORT).show()
             }
         }
         return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = FragmentFormBinding.inflate(layoutInflater)
-        firebaseDatabase = FirebaseDatabase.getInstance()
-        firebaseStorage = FirebaseStorage.getInstance()
-    }
+//    override fun onCreateView(
+//        inflater: LayoutInflater,
+//        container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//        binding = FragmentFormBinding.inflate(inflater, container, false)
+//
+//        dbHelper = DbHelper(requireContext())
+//        var plants = dbHelper.getAllPlants()
+//        var plantNames = plants.map { it.nombre }
+//
+//        imageViewModel.imageUrl?.let { imageUrl ->
+//            Glide.with(this)
+//                .load(imageUrl)
+//                .into(binding.image) // Ajusta esto según tu ImageView
+//        }
+//        binding.imgButton.setOnClickListener{
+//            isImageUpload = true
+//            val intent = Intent(Intent.ACTION_PICK)
+//            intent.type = "image/*"
+//            startActivityForResult(intent, IMAGE_PICK_CODE)
+//        }
+//
+//        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, plantNames)
+//        var autoComplete: AutoCompleteTextView = binding.tipoPlanta
+//        autoComplete.setAdapter(adapter)
+//
+//        binding.buttonSave.setOnClickListener {
+//            val selectedPlant = plants.find { it.nombre == autoComplete.text.toString() }
+//            selectedPlant?.let { plant ->
+//
+//                val nombrePlanta = binding.editTextNombrePlanta.text.toString()
+//                // Guardar la asociación entre el usuario y la planta seleccionada
+//                dbHelper.addUserPlant(currentUserEmail, plant.id, nombrePlanta)
+//                Toast.makeText(requireContext(), "Planta guardada correctamente", Toast.LENGTH_SHORT).show()
+//            } ?: run {
+//                Toast.makeText(requireContext(), "Por favor selecciona una planta válida", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//        return binding.root
+//    }
+
     private fun loadImageFromUri(uri: Uri?) {
         uri?.let {
             Glide.with(this)
