@@ -1,6 +1,7 @@
 package com.example.myapplication.fragments
 
 import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -19,7 +20,13 @@ import com.bumptech.glide.Glide
 import com.example.myapplication.Model
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentFormBinding
+import com.google.firebase.Firebase
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.database
+import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.FirebaseStorage
 
 private const val ARG_PARAM1 = "param1"
@@ -71,7 +78,6 @@ class FormFragment : Fragment() {
         val adapter = ArrayAdapter(activity?.applicationContext ?: requireContext(), R.layout.list_item, items)
         autoComplete.setAdapter(adapter)
 
-
         binding.buttonSave.setOnClickListener {
             if (uri != null && isImageUpload == true) {
                 subirImagen()
@@ -80,7 +86,6 @@ class FormFragment : Fragment() {
                 Toast.makeText(requireContext(), "Por favor seleccione una imagen", Toast.LENGTH_SHORT).show()
             }
         }
-
         return binding.root
     }
 
