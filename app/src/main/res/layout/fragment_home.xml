@@ -77,13 +77,14 @@
             android:textSize="32dp"></TextView>
 
         <TextView
+            android:id="@+id/leyenda"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginStart="20dp"
             android:layout_marginBottom="125dp"
             android:fontFamily="@font/medium"
-            android:text="AGREGA TU PROPIA PLANTA"
+            android:text="NECESITA RIEGO URGENTE"
             android:textColor="@color/Warning"
             android:textSize="6pt"></TextView>
 
@@ -116,6 +117,7 @@
             android:background="@drawable/button_desing"
             android:fontFamily="@font/montserrat_bold"
             android:text="Agregar planta"
+            android:visibility="gone"
             android:textColor="@color/white" />
 
     </com.google.android.material.card.MaterialCardView>

@@ -1,6 +1,7 @@
 package com.example.myapplication.fragments
 
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,6 +15,8 @@ import com.example.myapplication.R
 import com.example.myapplication.WeatherService
 import com.example.myapplication.databinding.FragmentHomeBinding
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -97,30 +100,68 @@ class HomeFragment : Fragment() {
         val txtHumedad = binding.TextViewPorcentajeHumedad
         val txtNombrePlanta = binding.TextViewNombrePlanta
         val txtNombre = binding.nombre
-
+        val auth = FirebaseAuth.getInstance()
+        val currentUser: FirebaseUser? = auth.currentUser
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(Long::class.java)
                 txtHumedad.text = "${value.toString()} %"
+                if (value != null) {
+                    if (value > 45) {
+                        // Si el valor del sensor es mayor a 45%, cambia el color del texto a rojo
+                        binding.TextViewEstado.setTextColor(resources.getColor(R.color.BluePrincipal))
+                        binding.TextViewEstado.text = "HÚMEDO"
+                        binding.leyenda.setText("NO NECESITA RIEGO")
+                    } else {
+                        // Si el valor del sensor es menor o igual a 45%, utiliza el color por defecto y el estado "Seco"
+                        binding.TextViewEstado.setTextColor(resources.getColor(R.color.Seco))
+                        binding.TextViewEstado.text = "SECO"
+                        binding.leyenda.setText("NECESITA RIEGO URGENTE")
+                    }
+                }
                 Log.d(ContentValues.TAG, "Value is: $value")
-            }
-
-            override fun onCancelled(error: DatabaseError) {
+            } override fun onCancelled(error: DatabaseError) {
                 Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
             }
         })
 
-        myRefPlants.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val value = dataSnapshot.getValue(String::class.java)
-                txtNombre.text = value.toString()
-                Log.d(ContentValues.TAG, "Value plant is: $value")
-            }
+        currentUser?.let { user ->
+            val userId = user.uid
 
-            override fun onCancelled(error: DatabaseError) {
-                Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
-            }
-        })
+            // Referencia a la última planta del usuario actual
+            val lastUserPlantRef = FirebaseDatabase.getInstance().reference
+                .child("users").child(userId).child("plants").limitToLast(1)
+
+            lastUserPlantRef.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    // Verifica si hay datos en la referencia de la última planta
+                    if (dataSnapshot.exists()) {
+                        for (plantSnapshot in dataSnapshot.children) {
+                            // Obtén los datos de la última planta
+                            val nombrePlanta = plantSnapshot.child("nombrePlanta").getValue(String::class.java)
+                            // Actualiza la interfaz de usuario con los datos de la última planta
+                            txtNombre.text = nombrePlanta
+                        }
+                    } else {
+                        binding.buttonRegar.visibility = View.VISIBLE
+                        binding.buttonRegar.setOnClickListener {
+                            // Navega al fragmento de formulario
+                            navigateToFormFragment()
+                        }
+                        binding.TextViewNombrePlanta.setText("")
+                        binding.leyenda.setText("AGREGA TU PROPIA PLANTA")
+                        binding.TextViewEstado.setText("SIN DATOS")
+                        // Maneja el caso en el que no hay ninguna planta para este usuario
+                        Log.d(TAG, "No se encontraron plantas para este usuario.")
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    // Manejar el error si la lectura de datos falla
+                    Log.w(TAG, "Error al leer datos: ", databaseError.toException())
+                }
+            })
+        }
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.openweathermap.org/data/2.5/")
@@ -132,7 +173,16 @@ class HomeFragment : Fragment() {
         getWeatherData()
 
     }
+    private fun navigateToFormFragment() {
+        // Crea una instancia del fragmento de formulario
+        val formFragment = FormFragment()
 
+        // Reemplaza el fragmento actual por el fragmento de formulario
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fl_wrapper, formFragment)
+            .addToBackStack(null) // Opcional: permite navegar hacia atrás
+            .commit()
+    }
     private fun getWeatherData() {
         val textViewClima = binding.TextViewClima
         lifecycleScope.launch {
