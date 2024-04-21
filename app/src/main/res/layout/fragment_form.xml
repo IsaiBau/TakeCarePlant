@@ -40,7 +40,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/montserrat_bold"
-            android:text="AÑADA SU PLANTA"
+            android:text="ADD YOUR PLANT"
             android:textColor="@color/black"
             android:textSize="10pt" />
 
@@ -50,7 +50,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="50dp"
             android:fontFamily="@font/medium"
-            android:text="Rellene los campos necesarios!"
+            android:text="Please fill in the required fields!"
             android:textColor="@color/black"
             android:textSize="8pt" />
 
@@ -75,7 +75,7 @@
                 android:id="@+id/tipoPlanta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nombre"
+                android:hint="Name"
                 android:inputType="none"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black" />
@@ -115,7 +115,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="460dp"
             android:layout_marginEnd="20dp"
-            android:hint="Nombre de la planta"
+            android:hint="Plant name"
             android:textColorHint="@color/Subtitulo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -155,7 +155,7 @@
             android:layout_gravity="bottom|center"
             android:layout_marginBottom="20dp"
             android:background="@drawable/button_desing"
-            android:text="Guardar"
+            android:text="Save"
             android:textColor="@color/white" />
 
     </com.google.android.material.card.MaterialCardView>

@@ -45,8 +45,8 @@ class DbHelper(private val context: Context) : SQLiteOpenHelper(context, DBNAME,
 
     private fun insertSampleData(db: SQLiteDatabase?, context: Context) {
         val plantsToAdd = listOf(
-            Plant(nombre = "Dracaena", desc = "Prueba", defaultImage = getImageAsByteArray(context, R.drawable.dracaena)),
-            Plant(nombre = "Aloe Vera", desc = "Prueba", defaultImage = getImageAsByteArray(context, R.drawable.dracaena))
+            Plant(nombre = "Dracaena", desc = "Prueba", defaultImage = getImageAsByteArray(context, R.drawable.planta_ejemplo2)),
+            Plant(nombre = "Aloe Vera", desc = "Prueba", defaultImage = getImageAsByteArray(context, R.drawable.planta_ejemplo2))
         )
 
         for (plant in plantsToAdd) {

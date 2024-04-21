@@ -20,7 +20,7 @@
         android:layout_marginTop="30dp"
         android:fontFamily="@font/medium"
         android:gravity="start"
-        android:text="Buenos Días!"
+        android:text="Good Morning!"
         android:textColor="@color/black"
         android:textSize="9pt"
         app:layout_constraintEnd_toEndOf="parent"

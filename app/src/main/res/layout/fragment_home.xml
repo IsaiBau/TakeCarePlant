@@ -16,7 +16,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardView"
         android:layout_width="350dp"
-        android:layout_height="320dp"
+        android:layout_height="250dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="120dp"
         android:backgroundTint="@color/white"
@@ -27,7 +27,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.102"
         app:strokeColor="@color/white">
 
         <TextView
@@ -39,7 +39,7 @@
             android:fontFamily="@font/montserrat_bold"
             android:text="Dracaena"
             android:textColor="@color/black"
-            android:textSize="20dp"></TextView>
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/nombre"
@@ -48,8 +48,8 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="50dp"
             android:fontFamily="@font/medium"
-            android:text="Planta de ejemplo"
-            android:textColor="@color/Subtitulo"></TextView>
+            android:text="Office"
+            android:textColor="@color/Subtitulo" />
 
         <TextView
             android:id="@+id/TextViewPorcentajeHumedad"
@@ -57,11 +57,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="60dp"
-            android:layout_marginBottom="50dp"
             android:fontFamily="@font/montserrat_bold"
             android:text="9%"
             android:textColor="@color/black"
-            android:textSize="40dp"></TextView>
+            android:textSize="40dp" />
 
         <TextView
             android:id="@+id/TextViewEstado"
@@ -70,22 +69,21 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
             android:layout_marginTop="45dp"
-            android:layout_marginBottom="50dp"
             android:fontFamily="@font/montserrat_bold"
-            android:text="SECO"
+            android:text="DRY"
             android:textColor="@color/Seco"
-            android:textSize="32dp"></TextView>
+            android:textSize="32dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginStart="20dp"
-            android:layout_marginBottom="125dp"
+            android:layout_marginBottom="40dp"
             android:fontFamily="@font/medium"
-            android:text="AGREGA TU PROPIA PLANTA"
+            android:text="THE PLANT NEEDS WATER"
             android:textColor="@color/Warning"
-            android:textSize="6pt"></TextView>
+            android:textSize="6pt" />
 
         <!--        Gotas y plantas (Imagenes)-->
 
@@ -94,8 +92,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="15dp"
-            android:layout_marginBottom="50dp"
-            android:src="@drawable/gotas_icono"></ImageView>
+            android:src="@drawable/gotas_icono" />
 
         <ImageView
             android:id="@+id/ImgPlanta"
@@ -103,20 +100,19 @@
             android:layout_height="180dp"
             android:layout_gravity="center_vertical|end"
             android:layout_marginEnd="-8dp"
-            android:layout_marginBottom="50dp"
-            android:src="@drawable/planta_ejemplo2"></ImageView>
+            android:src="@drawable/planta_ejemplo2" />
 
-        <android.widget.Button
-            android:id="@+id/buttonRegar"
-            android:layout_width="120dp"
-            android:layout_height="40dp"
-            android:textSize="10dp"
-            android:layout_gravity="bottom|center"
-            android:layout_marginBottom="35dp"
-            android:background="@drawable/button_desing"
-            android:fontFamily="@font/montserrat_bold"
-            android:text="Agregar planta"
-            android:textColor="@color/white" />
+        <!--        <android.widget.Button-->
+        <!--            android:id="@+id/buttonRegar"-->
+        <!--            android:layout_width="120dp"-->
+        <!--            android:layout_height="40dp"-->
+        <!--            android:textSize="10dp"-->
+        <!--            android:layout_gravity="bottom|center"-->
+        <!--            android:layout_marginBottom="35dp"-->
+        <!--            android:background="@drawable/button_desing"-->
+        <!--            android:fontFamily="@font/montserrat_bold"-->
+        <!--            android:text="Agregar planta"-->
+        <!--            android:textColor="@color/white" />-->
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -144,7 +140,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/montserrat_bold"
-            android:text="Clima Exterior"
+            android:text="Weather"
             android:textColor="@color/black"
             android:textSize="20dp"></TextView>
 
@@ -157,7 +153,7 @@
             android:fontFamily="@font/montserrat_bold"
             android:text="20°C"
             android:textColor="@color/black"
-            android:textSize="70dp"></TextView>
+            android:textSize="70dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -166,9 +162,34 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="60dp"
             android:fontFamily="@font/medium"
-            android:text="Soleado"
+            android:text="Sunny"
             android:textColor="@color/Subtitulo"
-            android:textSize="16dp"></TextView>
+            android:textSize="16dp"/>
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:tint="@color/Subtitulo"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="81dp"
+            android:fontFamily="@font/medium"
+            android:src="@drawable/icon_location"
+            android:textColor="@color/Subtitulo"
+            android:textSize="16dp"/>
+
+
+        <TextView
+            android:id="@+id/TextViewCiudad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="37dp"
+            android:layout_marginTop="80dp"
+            android:fontFamily="@font/medium"
+            android:text="Villahermosa, Tabasco"
+            android:textColor="@color/Subtitulo"
+            android:textSize="16dp"/>
 
         <ImageView
             android:layout_width="100dp"

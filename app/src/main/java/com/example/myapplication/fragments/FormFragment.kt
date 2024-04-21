@@ -134,7 +134,7 @@ class FormFragment : Fragment() {
                 dbHelper.addUserPlant(auth, currentUserEmail, plant.id, nombrePlanta, sensor, tipoTexto)
                 Toast.makeText(
                     requireContext(),
-                    "Planta guardada correctamente",
+                    "The plant was added successfully",
                     Toast.LENGTH_SHORT
                 ).show()
                 binding.editTextNombrePlanta.text!!.clear()
@@ -144,7 +144,7 @@ class FormFragment : Fragment() {
             } ?: run {
                 Toast.makeText(
                     requireContext(),
-                    "Por favor selecciona una planta válida",
+                    "Please select a valid plant",
                     Toast.LENGTH_SHORT
                 ).show()
             }
